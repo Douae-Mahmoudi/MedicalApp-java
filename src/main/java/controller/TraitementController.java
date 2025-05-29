@@ -1,3 +1,4 @@
+// Package de gestion des traitements
 package controller;
 
 import javafx.collections.FXCollections;
@@ -32,7 +33,6 @@ public class TraitementController {
     @FXML private TableColumn<Traitement, String> dateDebutColumn;
     @FXML private TableColumn<Traitement, String> dateFinColumn;
     @FXML private TableColumn<Traitement, Void> actionColumn;
-
     @FXML private Button addButton;
     @FXML private TextField searchField;
 
@@ -44,12 +44,14 @@ public class TraitementController {
     private ObservableList<Patient> patients;
     private ObservableList<Medecin> medecins;
 
+    // Méthode d'initialisation automatique appelée lors du chargement de la vue
     @FXML
     public void initialize() {
         traitementDAO = new TraitementDAO();
         patientDAO = new PatientDAO();
         medecinDAO = new MedecinDAO();
 
+        // Association des colonnes de la table avec les attributs des objets Traitement
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         medecinIdColumn.setCellValueFactory(new PropertyValueFactory<>("medecinId"));
@@ -60,22 +62,27 @@ public class TraitementController {
         dateDebutColumn.setCellValueFactory(new PropertyValueFactory<>("dateDebut"));
         dateFinColumn.setCellValueFactory(new PropertyValueFactory<>("dateFin"));
 
+        // Chargement des patients et médecins depuis la base de données
         patients = FXCollections.observableArrayList(patientDAO.getAllPatients());
         medecins = FXCollections.observableArrayList(medecinDAO.getAllMedecins());
 
+        // Chargement initial des traitements dans la table
         loadTraitements();
 
+        // Configuration des boutons
         addButton.setOnAction(e -> showAddDialog());
         searchField.textProperty().addListener((obs, oldVal, newVal) -> filterTraitements(newVal));
         addButtonToTable();
     }
 
+    // Charge tous les traitements depuis la base de données
     private void loadTraitements() {
         List<Traitement> list = traitementDAO.getAllTraitements();
         traitementList = FXCollections.observableArrayList(list);
         traitementTable.setItems(traitementList);
     }
 
+    // Filtre les traitements selon un mot-clé (nom patient, nom médecin ou médicament)
     private void filterTraitements(String filter) {
         if (filter == null || filter.isEmpty()) {
             traitementTable.setItems(traitementList);
@@ -92,6 +99,7 @@ public class TraitementController {
         }
     }
 
+    // Ajoute les boutons Modifier et Supprimer dans la table
     private void addButtonToTable() {
         Callback<TableColumn<Traitement, Void>, TableCell<Traitement, Void>> cellFactory = param -> new TableCell<>() {
             final Button btnEdit = new Button("Modifier");
@@ -133,14 +141,17 @@ public class TraitementController {
         actionColumn.setCellFactory(cellFactory);
     }
 
+    // Affiche le formulaire pour ajouter un traitement
     private void showAddDialog() {
         showFormDialog(null);
     }
 
+    // Affiche le formulaire pour modifier un traitement existant
     private void showEditDialog(Traitement traitement) {
         showFormDialog(traitement);
     }
 
+    // Affiche le même formulaire pour ajout ou modification de traitement
     private void showFormDialog(Traitement traitement) {
         boolean isEdit = traitement != null;
 
@@ -157,68 +168,40 @@ public class TraitementController {
         DatePicker dpDateDebut = new DatePicker();
         DatePicker dpDateFin = new DatePicker();
 
-        // Affichage propre des noms dans ComboBox Patient
-        // Pour la ComboBox Patient
+        // Configuration de l'affichage des ComboBox pour le nom complet
         cbPatient.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Patient item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                } else {
-                    setText(item.getPrenom() + " " + item.getNom());
-                }
+                setText(empty || item == null ? "" : item.getPrenom() + " " + item.getNom());
             }
         });
         cbPatient.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Patient item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                } else {
-                    setText(item.getPrenom() + " " + item.getNom());
-                }
+                setText(empty || item == null ? "" : item.getPrenom() + " " + item.getNom());
             }
         });
-
-// Pour la ComboBox Medecin
         cbMedecin.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Medecin item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                } else {
-                    setText(item.getPrenom() + " " + item.getNom());
-                }
+                setText(empty || item == null ? "" : item.getPrenom() + " " + item.getNom());
             }
         });
         cbMedecin.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Medecin item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                } else {
-                    setText(item.getPrenom() + " " + item.getNom());
-                }
+                setText(empty || item == null ? "" : item.getPrenom() + " " + item.getNom());
             }
         });
 
-
-
-
-        // Pré-remplissage si modification
+        // Pré-remplissage des champs si modification
         if (isEdit) {
-            cbPatient.setValue(patients.stream()
-                    .filter(p -> p.getId() == traitement.getPatientId())
-                    .findFirst()
-                    .orElse(null));
-            cbMedecin.setValue(medecins.stream()
-                    .filter(m -> m.getId() == traitement.getMedecinId())
-                    .findFirst()
-                    .orElse(null));
+            cbPatient.setValue(patients.stream().filter(p -> p.getId() == traitement.getPatientId()).findFirst().orElse(null));
+            cbMedecin.setValue(medecins.stream().filter(m -> m.getId() == traitement.getMedecinId()).findFirst().orElse(null));
             tfMedicament.setText(traitement.getMedicament());
             tfDose.setText(traitement.getDose());
             if (!traitement.getDateDebut().isEmpty())
@@ -227,11 +210,7 @@ public class TraitementController {
                 dpDateFin.setValue(java.time.LocalDate.parse(traitement.getDateFin()));
         }
 
-        cbPatient.setPromptText("Choisir patient");
-        cbMedecin.setPromptText("Choisir médecin");
-        tfMedicament.setPromptText("Médicament");
-        tfDose.setPromptText("Dose");
-
+        // Mise en page du formulaire
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -271,9 +250,12 @@ public class TraitementController {
 
         Optional<Traitement> result = dialog.showAndWait();
         result.ifPresent(t -> {
-            boolean success = isEdit ? traitementDAO.updateTraitement(t) : traitementDAO.addTraitement(t);
-            if (success) loadTraitements();
-            else new Alert(Alert.AlertType.ERROR, "Erreur lors de l'enregistrement.").showAndWait();
+            if (isEdit) {
+                traitementDAO.updateTraitement(t);
+            } else {
+                traitementDAO.addTraitement(t);
+            }
+            loadTraitements();
         });
     }
 }

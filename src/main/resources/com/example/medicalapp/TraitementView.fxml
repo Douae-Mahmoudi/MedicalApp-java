@@ -1,74 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Déclaration standard XML avec encodage UTF-8 -->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<!-- Import des composants JavaFX nécessaires : contrôles, layouts, images -->
+
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.TraitementController">
+    <!--
+        Conteneur principal BorderPane, permettant de placer les éléments dans les zones top, center, bottom, left, right.
+        Association avec le contrôleur Java "TraitementController" dans le package "controller".
+    -->
 
     <top>
+        <!-- Zone supérieure (barre d'en-tête) -->
         <VBox spacing="10" style="-fx-background-color: #0e8f95; -fx-padding: 10;">
+            <!--
+                Conteneur vertical avec espace de 10 pixels entre les éléments.
+                Fond bleu-vert (#0e8f95) et marge intérieure de 10 pixels.
+            -->
+
             <HBox spacing="10" alignment="CENTER_LEFT">
+                <!--
+                    Conteneur horizontal avec espacement 10 pixels entre les enfants.
+                    Alignement des éléments centrés verticalement et à gauche horizontalement.
+                -->
+
                 <ImageView fitHeight="40" preserveRatio="true">
                     <image>
                         <Image url="/logo.jpg" />
                     </image>
                 </ImageView>
+                <!--
+                    ImageView pour afficher un logo.
+                    Hauteur fixée à 40 pixels.
+                    Conservation du ratio largeur/hauteur.
+                    Image chargée depuis la ressource "/logo.jpg".
+                -->
+
                 <Label text="Gestion des Traitements"
                        style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+                <!--
+                    Label titre de la fenêtre.
+                    Texte blanc, taille 20px, gras.
+                -->
+
                 <Region HBox.hgrow="ALWAYS"/>
+                <!--
+                    Région vide utilisée pour pousser les éléments suivants à droite.
+                    Prend toute la largeur disponible horizontalement.
+                -->
+
                 <TextField fx:id="searchField"
                            promptText="Rechercher un traitement..."
                            prefWidth="300"/>
+                <!--
+                    Champ de texte pour recherche.
+                    Identifiant fx:id pour accès dans le contrôleur.
+                    Texte indicatif (placeholder) : "Rechercher un traitement..."
+                    Largeur préférée 300 pixels.
+                -->
+
                 <Button fx:id="addButton"
                         text="Ajouter"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                <Button fx:id="pdfButton"
-                        text="PDF"
-                        style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold;" />
-                <Button fx:id="excelButton"
-                        text="Excel"
-                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" />
+                <!--
+                    Bouton "Ajouter" pour ajouter un traitement.
+                    Identifiant fx:id pour manipulation dans le contrôleur.
+                    Fond vert (#27ae60), texte blanc et gras.
+                -->
+
             </HBox>
         </VBox>
     </top>
 
     <center>
+        <!-- Zone centrale contenant la table des traitements -->
+
         <TableView fx:id="traitementTable"
                    prefWidth="900"
                    prefHeight="400">
+            <!--
+                TableView principale avec identifiant fx:id pour le contrôleur.
+                Taille préférée : 900px largeur, 400px hauteur.
+            -->
+
             <columns>
+                <!-- Définition des colonnes de la table -->
+
                 <TableColumn fx:id="idColumn"
                              text="ID"
                              prefWidth="60"/>
+                <!-- Colonne affichant l'ID du traitement -->
+
                 <TableColumn fx:id="patientIdColumn"
                              text="ID Patient"
                              prefWidth="80"/>
+                <!-- Colonne affichant l'ID du patient -->
+
                 <TableColumn fx:id="medecinIdColumn"
                              text="ID Médecin"
                              prefWidth="80"/>
+                <!-- Colonne affichant l'ID du médecin -->
+
                 <TableColumn fx:id="patientNomColumn"
                              text="Nom Patient"
                              prefWidth="150"/>
+                <!-- Colonne affichant le nom du patient -->
+
                 <TableColumn fx:id="medecinNomColumn"
                              text="Nom Médecin"
                              prefWidth="150"/>
+                <!-- Colonne affichant le nom du médecin -->
+
                 <TableColumn fx:id="medicamentColumn"
                              text="Médicament"
                              prefWidth="120"/>
+                <!-- Colonne affichant le médicament prescrit -->
+
                 <TableColumn fx:id="doseColumn"
                              text="Dose"
                              prefWidth="100"/>
+                <!-- Colonne affichant la dose prescrite -->
+
                 <TableColumn fx:id="dateDebutColumn"
                              text="Date Début"
                              prefWidth="100"/>
+                <!-- Colonne affichant la date de début du traitement -->
+
                 <TableColumn fx:id="dateFinColumn"
                              text="Date Fin"
                              prefWidth="100"/>
+                <!-- Colonne affichant la date de fin du traitement -->
+
                 <TableColumn fx:id="actionColumn"
                              text="Actions"
                              prefWidth="120"/>
+                <!-- Colonne destinée à contenir les boutons ou contrôles d'action (modifier, supprimer) -->
+
             </columns>
         </TableView>
     </center>

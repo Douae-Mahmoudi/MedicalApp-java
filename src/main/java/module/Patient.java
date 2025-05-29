@@ -3,22 +3,43 @@ package module;
 import java.time.LocalDate;
 
 public class Patient {
+
+    // Identifiant unique du patient (ex: clé primaire en base)
     private int id;
+
+    // Nom de famille du patient
     private String nom;
+
+    // Prénom du patient
     private String prenom;
+
+    // Date de naissance du patient (format LocalDate pour gérer les dates facilement)
     private LocalDate dateNaissance;
+
+    // Numéro de carte nationale du patient (identification officielle)
     private String numCarteNationale;
+
+    // Dose du médicament prescrite au patient
     private String doseMedicament;
+
+    // Médicaments prescrits au patient (peut contenir plusieurs noms)
     private String medicaments;
+
+    // Médecins qui suivent le patient (peut être une liste ou une chaîne)
     private String medecinsSuivi;
 
-    // Constructeur sans id (pour insertion avant affectation id auto généré)
+    /**
+     * Constructeur pour créer un patient sans id (id généré automatiquement par la base).
+     * Utilisé généralement avant l'insertion en base de données.
+     */
     public Patient(String nom, String prenom, LocalDate dateNaissance, String numCarteNationale,
                    String doseMedicament, String medicaments, String medecinsSuivi) {
         this(0, nom, prenom, dateNaissance, numCarteNationale, doseMedicament, medicaments, medecinsSuivi);
     }
 
-    // Constructeur complet
+    /**
+     * Constructeur complet pour créer un patient avec un id (ex : récupération depuis la base).
+     */
     public Patient(int id, String nom, String prenom, LocalDate dateNaissance, String numCarteNationale,
                    String doseMedicament, String medicaments, String medecinsSuivi) {
         this.id = id;
@@ -31,7 +52,8 @@ public class Patient {
         this.medecinsSuivi = medecinsSuivi;
     }
 
-    // Getters et setters
+    // --- Getters et setters pour accéder et modifier les propriétés ---
+
     public int getId() {
         return id;
     }
@@ -96,6 +118,10 @@ public class Patient {
         this.medecinsSuivi = medecinsSuivi;
     }
 
+    /**
+     * Méthode toString pour afficher les informations complètes du patient sous forme de chaîne.
+     * Utile pour le débogage ou l'affichage en console.
+     */
     @Override
     public String toString() {
         return "Patient{" +

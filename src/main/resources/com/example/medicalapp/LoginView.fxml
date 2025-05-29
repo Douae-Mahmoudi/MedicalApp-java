@@ -1,33 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Déclaration standard XML avec encodage UTF-8 -->
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
+<!-- Import des classes JavaFX nécessaires (contrôles, layouts, géométrie) -->
 
 <StackPane xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controller.LoginController"
            style="-fx-background-color: linear-gradient(to bottom right, #00a7b3, #008fa1);">
-
+    <!--
+        Conteneur principal : StackPane
+        - Définit l’espace de la scène
+        - Applique un dégradé de fond allant du turquoise clair au turquoise foncé (gradient diagonal)
+        - Associe ce layout au contrôleur Java LoginController dans le package 'controller'
+    -->
 
     <VBox alignment="CENTER" spacing="15"
           style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.5, 0, 2);"
           maxWidth="250" prefWidth="250" maxHeight="200" prefHeight="200">
-
+        <!--
+            VBox : conteneur vertical
+            - Centre ses enfants horizontalement et verticalement (alignment CENTER)
+            - Espace vertical entre les éléments : 15 pixels
+            - Style :
+              * fond blanc
+              * marge intérieure (padding) de 20px sur tous les côtés
+              * coins arrondis (rayon 10)
+              * ombre portée douce (drop shadow) pour effet de relief
+            - Dimensions fixes maximales et préférées pour limiter la taille de la boîte
+        -->
 
         <Label text="Accès Sécurisé"
                style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #008fa1;" />
+        <!--
+            Label titre
+            - Texte "Accès Sécurisé"
+            - Police agrandie (20px), en gras
+            - Couleur du texte turquoise foncé
+        -->
 
         <Label text="Code d'accès :"
                style="-fx-font-weight: bold;" />
+        <!--
+            Label descriptif du champ
+            - Texte "Code d'accès :"
+            - En gras
+        -->
 
         <PasswordField fx:id="passwordField"
                        promptText="Entrez votre code"
                        style="-fx-pref-width: 200; -fx-padding: 8; -fx-font-size: 14px;" />
+        <!--
+            Champ de saisie pour mot de passe (code d'accès)
+            - Identifiant fx:id utilisé dans le contrôleur pour récupérer la valeur
+            - Texte indicatif ("placeholder") : "Entrez votre code"
+            - Largeur préférée de 200px
+            - Padding interne (espace à l’intérieur) de 8px
+            - Police taille 14px
+        -->
 
         <Button text="Se connecter"
                 onAction="#handleLogin"
                 style="-fx-background-color: #00979d; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5; -fx-font-size: 14px;" />
+        <!--
+            Bouton d'action
+            - Texte "Se connecter"
+            - Appel de la méthode handleLogin() du contrôleur lors du clic (onAction)
+            - Style :
+              * fond turquoise
+              * texte blanc
+              * padding vertical 10px, horizontal 20px
+              * coins arrondis (rayon 5)
+              * taille police 14px
+        -->
 
     </VBox>
 

@@ -1,53 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Déclaration XML standard avec encodage UTF-8 -->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<!-- Import des composants JavaFX nécessaires : contrôles, layouts et images -->
+
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.VisiteController">
+    <!--
+        BorderPane comme conteneur principal pour organiser l'interface en zones.
+        Liaison avec le contrôleur Java "VisiteController" pour gérer les événements et la logique.
+    -->
 
     <top>
+        <!-- Zone en haut de la fenêtre (barre d'en-tête) -->
         <VBox spacing="10" style="-fx-background-color: #0e8f95; -fx-padding: 10;">
+            <!--
+                Conteneur vertical avec un espace de 10 pixels entre les enfants.
+                Fond bleu foncé et une marge intérieure de 10 pixels pour un bon espacement.
+            -->
+
             <HBox spacing="10" alignment="CENTER_LEFT">
+                <!--
+                    Conteneur horizontal alignant les éléments au centre verticalement et à gauche horizontalement,
+                    avec un espacement de 10 pixels entre eux.
+                -->
+
                 <ImageView fitHeight="40" preserveRatio="true">
                     <image>
                         <Image url="/logo.jpg" />
                     </image>
                 </ImageView>
+                <!--
+                    Affiche un logo.
+                    Hauteur fixée à 40 pixels avec conservation du ratio largeur/hauteur.
+                    Image chargée depuis la ressource "/logo.jpg".
+                -->
+
                 <Label text="Gestion des Visites"
                        style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+                <!--
+                    Titre principal de la fenêtre.
+                    Texte en blanc, taille 20 px, en gras.
+                -->
+
                 <Region HBox.hgrow="ALWAYS"/>
+                <!--
+                    Espace flexible pour pousser les éléments suivants (champ de recherche et bouton)
+                    vers la droite.
+                -->
+
                 <TextField fx:id="searchField"
                            promptText="Rechercher une visite..."
                            prefWidth="300"/>
+                <!--
+                    Champ texte pour la recherche.
+                    Identifiant fx:id pour le contrôler dans le code Java.
+                    Texte d’indication affiché à l'intérieur.
+                    Largeur préférée fixée à 300 pixels.
+                -->
+
                 <Button fx:id="addButton"
                         text="Ajouter"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <!--
+                    Bouton pour ajouter une nouvelle visite.
+                    Identifiant fx:id pour gestion dans le contrôleur.
+                    Style vert avec texte blanc et gras.
+                -->
+
             </HBox>
         </VBox>
     </top>
 
     <center>
+        <!-- Zone centrale dédiée à l'affichage des visites sous forme de tableau -->
+
         <TableView fx:id="visiteTable"
                    prefWidth="900"
                    prefHeight="400">
+            <!--
+                TableView principale pour afficher la liste des visites.
+                Identifiant fx:id pour liaison avec le contrôleur.
+                Dimensions préférées de 900x400 pixels.
+            -->
+
             <columns>
+                <!-- Définition des colonnes affichées dans le tableau -->
+
                 <TableColumn fx:id="idColumn"
                              text="ID"
                              prefWidth="60"/>
+                <!-- Colonne pour l'identifiant unique de la visite -->
+
                 <TableColumn fx:id="patientColumn"
                              text="Patient"
                              prefWidth="200"/>
+                <!-- Colonne affichant le nom ou identifiant du patient -->
+
                 <TableColumn fx:id="dateColumn"
                              text="Date"
                              prefWidth="150"/>
+                <!-- Colonne affichant la date de la visite -->
+
                 <TableColumn fx:id="etatColumn"
                              text="État"
                              prefWidth="150"/>
+                <!-- Colonne indiquant l'état (statut) de la visite -->
+
                 <TableColumn fx:id="actionColumn"
                              text="Actions"
                              prefWidth="120"/>
+                <!-- Colonne destinée à contenir des boutons ou contrôles pour modifier/supprimer une visite -->
+
             </columns>
         </TableView>
     </center>

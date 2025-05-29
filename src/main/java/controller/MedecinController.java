@@ -31,6 +31,12 @@ public class MedecinController {
     private ObservableList<Medecin> medecinList;
     private FilteredList<Medecin> filteredData;
 
+    /**
+     * Méthode appelée automatiquement à l'initialisation du contrôleur.
+     * Elle configure les colonnes du tableau, charge les médecins,
+     * applique le filtre de recherche, ajoute la colonne d'actions,
+     * et définit l'action du bouton "Ajouter".
+     */
     @FXML
     public void initialize() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -45,11 +51,19 @@ public class MedecinController {
         addButton.setOnAction(e -> openAddMedecinDialog());
     }
 
+    /**
+     * Charge la liste des médecins à partir de la base de données
+     * et la stocke dans une ObservableList.
+     */
     private void loadMedecins() {
         MedecinDAO dao = new MedecinDAO();
         medecinList = FXCollections.observableArrayList(dao.getAllMedecins());
     }
 
+    /**
+     * Configure un filtre dynamique sur la liste des médecins,
+     * basé sur la saisie de l'utilisateur dans le champ de recherche.
+     */
     private void setupSearchFilter() {
         filteredData = new FilteredList<>(medecinList, p -> true);
         searchField.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -66,6 +80,10 @@ public class MedecinController {
         medecinTable.setItems(sortedData);
     }
 
+    /**
+     * Ajoute une colonne d’actions à la fin du tableau, contenant deux boutons :
+     * un pour modifier un médecin et un autre pour le supprimer.
+     */
     private void addButtonToTable() {
         Callback<TableColumn<Medecin, Void>, TableCell<Medecin, Void>> cellFactory = param -> new TableCell<>() {
             private final Button btnEdit = new Button("Modifier");
@@ -98,6 +116,10 @@ public class MedecinController {
         actionColumn.setCellFactory(cellFactory);
     }
 
+    /**
+     * Ouvre une boîte de dialogue permettant d’ajouter un nouveau médecin.
+     * Si l’utilisateur confirme, le médecin est ajouté à la base et à la liste observable.
+     */
     private void openAddMedecinDialog() {
         Dialog<Medecin> dialog = createMedecinDialog(null);
         Optional<Medecin> res = dialog.showAndWait();
@@ -110,6 +132,10 @@ public class MedecinController {
         });
     }
 
+    /**
+     * Ouvre une boîte de dialogue pour modifier un médecin existant.
+     * Après modification et confirmation, les données sont mises à jour dans la base et dans la table.
+     */
     private void openEditMedecinDialog(Medecin medecin) {
         Dialog<Medecin> dialog = createMedecinDialog(medecin);
         Optional<Medecin> res = dialog.showAndWait();
@@ -123,6 +149,14 @@ public class MedecinController {
         });
     }
 
+    /**
+     * Crée une boîte de dialogue permettant soit d’ajouter soit de modifier un médecin.
+     * Si `existingMedecin` est null, la boîte est utilisée pour l’ajout.
+     * Sinon, les champs sont pré-remplis avec les informations existantes.
+     *
+     * @param existingMedecin médecin existant à modifier, ou null pour l’ajout
+     * @return la boîte de dialogue prête à être affichée
+     */
     private Dialog<Medecin> createMedecinDialog(Medecin existingMedecin) {
         Dialog<Medecin> dialog = new Dialog<>();
         dialog.setTitle(existingMedecin == null ? "Ajouter un Médecin" : "Modifier un Médecin");
@@ -150,7 +184,6 @@ public class MedecinController {
         dialog.getDialogPane().setContent(grid);
 
         Node actionBtn = dialog.getDialogPane().lookupButton(actionType);
-        // Initialisation de l'état du bouton selon le contenu actuel de nomF
         actionBtn.setDisable(nomF.getText().trim().isEmpty());
 
         nomF.textProperty().addListener((o, ov, nv) -> actionBtn.setDisable(nv.trim().isEmpty()));

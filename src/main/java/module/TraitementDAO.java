@@ -6,10 +6,22 @@ import java.util.List;
 
 public class TraitementDAO {
 
+    /**
+     * Établit et retourne une connexion à la base de données MySQL.
+     * La connexion cible la base 'traitement' sur localhost avec l'utilisateur 'root' sans mot de passe.
+     * @return une connexion valide à la base de données
+     * @throws SQLException si la connexion échoue
+     */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/traitement", "root", "");
     }
 
+    /**
+     * Récupère la liste complète de tous les traitements enregistrés en base.
+     * Effectue une jointure avec les tables Patient et Medecin pour récupérer
+     * les noms et identifiants liés à chaque traitement.
+     * @return une liste d'objets Traitement représentant chaque traitement trouvé
+     */
     public List<Traitement> getAllTraitements() {
         List<Traitement> traitements = new ArrayList<>();
         String sql = "SELECT t.id, p.id AS patient_id, p.nom AS patient_nom, " +
@@ -44,7 +56,14 @@ public class TraitementDAO {
         return traitements;
     }
 
-    // Méthode addTraitement correctement intégrée
+    /**
+     * Ajoute un nouveau traitement dans la base de données.
+     * Prépare une requête SQL INSERT et positionne les valeurs
+     * issues de l'objet Traitement passé en paramètre.
+     * Gère la possibilité que la date de fin soit absente (null ou chaîne vide).
+     * @param t l'objet Traitement contenant les données à insérer
+     * @return true si l'insertion a réussi, false sinon
+     */
     public boolean addTraitement(Traitement t) {
         String sql = "INSERT INTO traitement (patient_id, medecin_id, medicament, dose, date_debut, date_fin) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
@@ -72,6 +91,14 @@ public class TraitementDAO {
         }
     }
 
+    /**
+     * Met à jour un traitement existant dans la base de données.
+     * Utilise l'identifiant du traitement pour cibler la ligne à modifier.
+     * Met à jour tous les champs avec les valeurs fournies dans l'objet Traitement.
+     * Gère la date de fin pouvant être nulle ou vide.
+     * @param t l'objet Traitement contenant les nouvelles données
+     * @return true si la mise à jour a réussi, false sinon
+     */
     public boolean updateTraitement(Traitement t) {
         String sql = "UPDATE traitement SET patient_id = ?, medecin_id = ?, medicament = ?, dose = ?, date_debut = ?, date_fin = ? WHERE id = ?";
 
@@ -100,6 +127,12 @@ public class TraitementDAO {
         }
     }
 
+    /**
+     * Supprime un traitement de la base de données selon son identifiant.
+     * Prépare et exécute une requête DELETE ciblant la ligne correspondante.
+     * @param id identifiant du traitement à supprimer
+     * @return true si la suppression a réussi, false sinon
+     */
     public boolean deleteTraitement(int id) {
         String sql = "DELETE FROM traitement WHERE id = ?";
 
